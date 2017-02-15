@@ -1,0 +1,10 @@
+Package: mydp
+Title: Functions for Dirichlet Process
+Version: 0.0.0.9000
+Authors@R: person("Imanol", "Nuñez", email = "inuzm@live.com", role = c("aut", "cre"))
+Description: This package is created with the intention of having a way to source functions easily for my thesis.
+Depends: R (>= 3.3.1)
+License: None right now.
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1.9000
