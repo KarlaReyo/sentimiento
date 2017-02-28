@@ -1,0 +1,425 @@
+\chapter{Marco teórico}
+\label{ch:marcot}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Procesos de Dirichlet
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Procesos de Dirichlet}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introducción
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Revisión general}
+\subsubsection{Introducción}
+
+Aquí se enlistan de forma general algunos procesos desarrollados para ser usados como distribuciones a priori en problemas no paramétricos %
+desde el punto de vista bayesiano. Más adelante se detallarán algunos de estos y se dirán sus propiedades. En el enfoque bayesiano %
+la función de distribución desconocida, de donde se obtiene una muestra se considera como un parámetro. Por ello se deben construir %
+distribuciones a priori en el espacio de todas las funciones de distribución, $\mathcal{F} \left( \chi \right)$, o en el espacio de %
+medidas de probabilidad, $\Pi$, definido sobre $\left( \mathfrak{X}, \mathcal{A} \right)$.
+
+Mientras que la función de distribución es el parámetro de mayor interés en análisis bayesiano no paramétrico a veces es más útil %
+discutir el proceso \textit{a priori} en términos de una medida de probabilidad, $P$.\footnote{El proceso de Dirichlet está %
+definido de esa forma.} %
+Definir cosas \textit{a priori} es teóricamente complicado, por lo que se buscan funciones que cumplan ciertos requisitos para mejorar %
+el asunto: el soporte de la función debe ser suficientemente amplio y la distribución posterior debe ser tratable analíticamente. 
+
+\subsubsection{Métodos de construcción}
+
+El tener un prior en $\mathcal{F}$ o $\Pi$ se puede clasificar en cuatro casos:
+\begin{enumerate}
+    \item El primer caso es bajo la distribución conjunta de probabilidades aleatorias.
+    \item El segundo y tercer caso es bajo conceptos de independencia.
+    \item El último caso se basa en un esquema de urnas de Polya.
+\end{enumerate}
+Los primeros tres casos se sustentan primordialmente en propiedades de la distribución Dirichlet, aunque nuevos métodos han surgido %
+tomando como base la construcción de \textit{romper una rama}.
+
+El primer método se debe a Ferguson y se desarrolla en términos de la distribución conjunta de las probabilidades de una partición %
+medible en un conjunto arbitrario. El segundo método se fundamenta en la independencia de los incrementos sucesivos normalizados %
+de una función de distribución $F$ definida en $\mathbb{R}$. El tercer método se basa en la propiedad \textit{tailfree} de la %
+distribución Dirichlet.
+
+\begin{defi}[Tailfree]
+Una medida de probabilidad aleatoria $P$ se dice que es \textit{tailfree} si dada $\left\{ \pi_{n} \right\}$, una sucesión de %
+particiones anidadas de $\mathbb{R}$, donde $\pi_{n+1}$ es un refinamiento de $\pi_{n}$, se cumple que %
+$\left\{ %
+P \left( B | A \right) \,|\, A \in \pi_{n} \text{ y } B \in \pi_{n+1} %
+\right\}$ para $n = 1,2,\ldots$ son independientes.
+\end{defi}
+
+El cuarto método de construcción se basa en construir una sucesión de variables aleatorias intercambiables por medio de un %
+esquema de urnas de Polya y luego aplicando un teorema de de Finetti.
+
+\begin{defi}[Proceso de Polya]
+Sea $\chi = \left\{ 1, 2, \ldots, k \right\}$, dada una urna con $\alpha_{i}$ bolas de un color ($i = 1, 2, \ldots, k$). %
+Se saca una bola, creando una variable aleatoria $X_{1}$ en donde $P \left( X_{1} = i \right) = \frac{\alpha_{i}}{\sum_{j = 1}^{k} %
+\alpha_{j}}$ y se remplaza con dos bolas del color que se sacó. En el siguiente paso se saca otra bola y ahora se tiene que $ P %
+\left( X_{2} = j \,|\, X_{1} = i \right) = \frac{\alpha_{j} + \delta_{ij}}{\sum \alpha_{l} + 1} $. Se repite este proceso %
+indefinidamente para obtener una sucesión de variables aleatorias intercambiables tomando valores en $\chi$.
+\end{defi}
+
+La distribución muestral de $X_{1}, X_{2}, \ldots$ converge casi seguramente a un vector $\mathbf{\theta} = \left( \theta_{1}, %
+\ldots, \theta_{k} \right)$ con distribución Dirichlet con parámetros $\left(\alpha_{1}, \ldots, \alpha_{k} \right)$, y dado %
+$\mathbf{\theta}$, las $X_{i}$ son independientes con $P\left( X_{i} = j \right) = \theta_{j}$. Un teorema de de Finetti%
+\footnote{Investigar} asegura que hay una medida $\mu$ tal que la distribución de probabilidad conjunta marginal bajo esta %
+medida es la misma para cualquier permutación de las variables. Blackwell y MacQueen generalizaron lo anterior tomando un %
+número continuo de colores $\alpha$. Mostraron que la sucesión de $\frac{\alpha_{n}(\cdot)}{\alpha_{n}\left( \mathfrak{X} %
+\right)}$ (donde $\alpha_{n}(\cdot) = \alpha(\cdot) + \sum_{i = 1}^{n} \delta_{i}(\cdot)$) converge a una medida discreta $P$, %
+esta es el proceso de Dirichlet con parámetro $\alpha$.
+
+La representación de una medida de probabilidad como una mezcla contable ha sido útil para el desarrollo de nuevas aplicaciones. %
+Ferguson propuso una definición alternativa del proceso de Dirichlet. $\sum_{i = 1}^{\infty} p_{i}\delta_{\xi_{i}}$ en donde %
+los puntos de acumulación de masa son aleatorios y provienen de la distribución $F_{0} = \frac{\alpha(\cdot)}{\alpha\left( %
+\mathfrak{X} \right)}$, y los pesos $p_i$ son aleatorios con las restricciones $0 \leq p_{i} \leq 1$ y $\sum_{i = 1}^{\infty}%
+p_{i} = 1$. El problema con esta representación es que Ferguson contruyó los pesos con la distribución gamma, lo cual lo hace %
+poco práctico; Sethuraman ataca este problema generando los pesos por medio de variables aleatorias beta, esto renovó el interés %
+en esta representación que da lugar a nuevos procesos llamados \textit{Ferguson-Sethuraman}.
+
+Por esto el proceso Dirichlet sirve como base prior y se usa como fuente para ser generalizada. Antoniak propuso que $\alpha$ %
+también fuera un parámetro, indexado por $u \sim H$, por lo que se tiene una mezcla de procesos de Dirichlet, $P \in \int %
+\D\left( \alpha_{u} \right) dH(u)$. Dalal propuso que la medida $\alpha$ fuera invariante dentro de un grupo de transformaciones %
+creando el \textit{Proceso de Dirichlet Invariante}. Lo, escribiendo $f(x) = \int K(x, u) dG(u)$, con $K$ un kernel conocido %
+y $G \in \D(\alpha)$, pudo poner priores en un espacio de funciones de densidad. Tomando $\alpha\Pp{\X}$ como una función %
+positiva en lugar de constante, Walker y Muliere generalizaron el proceso de Dirichlet para que el soporte incluya funciones %
+absolutamente continuas (este proceso se llama \textit{beta-Stacy}).
+
+\subsubsection{Procesos a priori}
+
+El proceso de Dirichlet de Ferguson cumple con los dos requisitos básicos para un proceso a priori: es simple, está definido en %
+un espacio de probabilidad arbitrario y pertenece a una familia de priores conjugada. Lijoi y Prünster identifican la %
+conjugacidad como estructural o paramétrica; en la primera la distribución posterior tiene la misma estructura que la prior %
+mientras que en la segunda la distribución posterior es igual a la prior pero con cambios en los parámetros. El proceso de %
+Dirichlet tiene un parámetro interpretable; dada una muestra aleatoria $\mathbf{X} \sim P \in \D\Pp{\alpha}$, Ferguson demostró %
+que la distribución posterior, dada la muestra es también un proceso de Dirichlet, en particular $P \,|\,\mathbf{X} \in \D%
+\Pp{\alpha + \sum_{i = 1}^{n} \delta_{x_{i}}}$. Esta propiedad hace posible la derivación de estimadores bayesianos no paramétricos %
+de varias funciones de $P$ actualizando $\alpha$ En realidad $\alpha$ puede ser visto como una representación de dos parámetros: %
+$F_{0}\Pp{\cdot} = \overline{\alpha}\Pp{\cdot} = \frac{\alpha\Pp{\cdot}}{\alpha\Pp{\X}}$ y $M = \alpha\Pp{\X}$. $F_{0}$ se %
+interpreta como una adivinanza a priori (o distribución base) de $F$ y $M$ es el tamaño poblacional a prior o el parámetro de %
+precisión (o nuestra creencia de que $F_{0}$ es correcta). La media posterior de $F$ es una combinación convexa de $F_{0}$ y la %
+función de distribución empírica. 
+
+El proceso de Dirichlet es el único proceso a priori en el que la distribución de $P\Pp{A}$ depende únicamente del número de %
+observaciones dentro de $A$ y no de su ubicación y esto es considerado como una debilidad; pero el mayor problema es que el %
+soporte solamente contiene medidas de probabilidad discretas.\footnote{Algunas aplicaciones recientes demuestran que este problema %
+no es tan grave como podría parecer y que resulta benéfico.} El proceso de Dirichlet, a pesar de ser popular y satisfacer muchas %
+demandas, no era adecuado para estimar densidades y algunos otros problemas. Para esto se crearon algunas extensiones. 
+
+Respecto a la estimación basada en datos censurados por la derecha, asumiendo el proceso Dirichlet como prior, se sigue que %
+la distribución posterior es ua mezcla de procesos de Dirichlet. Esto llevó al desarrollo de mezclas de procesos de Dirichlet. %
+(Antoniak) Este proceso también tiene la propiedad de conjugacidad; sea $\mathbf{\theta} \sim P \in \int_{U} \D\Pp{\alpha_{u}} %
+dH(u)$ una muestra de tamaño $n$, entonces $P \,|\, \mathbf{\theta} \in \int_{U} \D\Pp{\alpha_{u} + \sum_{i = 1}^{n} %
+\delta_{\theta_{i}}} dH_{\mathbf{\theta}}(u)$. Estos procesos son útiles en problemas de evaluación biológica, pero obtener %
+la expresión explícita de la distribución posterior es difícil por lo que se confía en procedimientos computacionales.
+
+El proceso de Dirichlet es no paramétrico en el sentido de que tiene un soporte amplio; por esto Dalal vio la necesidad de %
+que la prior debía de tener una estructura inherente, como simetría, o alguna propiedad de invarianza. Esto lo llevó a %
+definir un proceso invariante respecto a un grupo de transformaciones medibles que selecciona una función de distribución %
+invariante con probabilidad uno. Eso lo llamó \textit{proceso de Dirichlet invariante}, $\DGI\Pp{\alpha}$,con parámetro %
+$\alpha$. La propiedad de conjugacidad también se cumple para este tipo de procesos.
+
+Teh \textit{et al} proponen modelos jerárquicos donde los parámetros de las distribuciones a priori son asignados a priori %
+con hiperparámetros. Un modelo general que contiene el proceso de Dirichlet, fue propuesto por Pitman, es el de \textit{modelos %
+de muestreo de especies} y la probabilidad está dada por
+\[
+P\Pp{\cdot} = \sum_{j = 1}^{\infty} p_{j} \delta_{\xi_{j}}\Pp{\cdot} + 
+            \Pp{1 - \sum_{j = 1}^{\infty} p_{j}} Q\Pp{\cdot},
+\]
+donde $Q$ es una medida de probabilidad correspondiente a la distribución continua $G$, $\xi_{i} \sim G$ y $\sum_{j = 1}^%
+{\infty} p_{j} \leq 1$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% El proceso Dirichlet
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Proceso Dirichlet}
+
+Este proceso es el más popular y usado como medida a priori en análisis no paramétrico bayesiano, este suceso se debe a su %
+tratabilidad matemática; junto a sus generalizaciones, son de las priores más usadas e importantes en la modelación de %
+datos covariados de grandes dimensiones. Un proceso de Dirichlet a priori con parámetro $\alpha$ para una función de %
+distribución $F$ es una medida de probabilidad en el espacio de funciones de distribución y tiene dos parámetros importantes: %
+una distribución base $F_{0}$ y la precisión $M$. Ferguson define el proceso de Dirichlet en términos de una medida de %
+probabilidad aleatoria; desafortunadamente la concentración del proceso es en medidas de probabilidad discretas.
+
+\subsubsection{Definición}
+
+Sea $P$ una medida de probabilidad en $\Pp{\X, \Alg}$ en donde $\X$ es un espacio métrico separable y $\Alg = \sigma\Pp{\X}$, %
+además sea $\Pi$ el conjunto de todas las medidas de probabilidad en $\Pp{\X, \Alg}$. ($P$ es el parámetro y $\Pp{\Pi, %
+\sigma\Pp{Pi}}$ es el espacio parametral.) Se denota como $F$ a la función de distribución correspondiente a $P$ y %
+$\mathcal{F}$ el espacio de todas las funciones de distribución. 
+
+Sea $D\Pp{\gamma_{1}, \ldots, \gamma_{k}}$ la distribución Dirichlet $k-1$-dimensional con densidad
+\[
+f\Pp{x_{1},\ldots,x_{k-1}} = \frac{\Gamma\Pp{\gamma_{1} +\cdots+ \gamma_{k}}}{\Gamma\Pp{\gamma_{1}} \cdots \Gamma\Pp{\gamma_{k}}} %
+                            \prod_{i = 1}^{k-1} x_{i}^{\gamma_{i} - 1} \Pp{1 - \sum_{i = 1}^{k-1} x_{i}}^{\gamma_{k} - 1},
+\]
+sobre $S_{k-1} = \Set{\mathbf{x} \in \R^{k-1} \,|\, \mathbf{x} \geq \mathbf{0} \text{ y } \norm[1]{\mathbf{x}} \leq 1}$  y %
+$\gamma_{i} \in \R_{>0}$. 
+
+Decimos que $P$ es una medida de probabilidad aleatoria en $\Pp{\X, \Alg}$ si para cualquier $A \in \Alg$, $P\Pp(A)$ es %
+aleatoria con valores en $\Bb{0, 1}$, $P\Pp{\X} = 1$ casi seguramente y $P$ es finitamente aditiva.
+
+\begin{defi}[Proceso de Dirichlet](Ferguson) 
+Sea $\alpha$ una medida finita no negativa en $\Pp{\X, \Alg}$. Una probabilidad aleatoria $P$ es un proceso de Dirichlet %
+en $\Pp{\X, \Alg}$ con parámetro $\alpha$ si para cada $k > 0$ entero y una partición medible $\Pp{A_{1}, \ldots, A_{k}}$ %
+de $\X$, el vector $\Pp{P\Pp{A_{1}}, \ldots, P\Pp{A_{k}}}$ tiene la distribución $D\Pp{\alpha\Pp{A_{1}}, \ldots, \alpha %
+\Pp{A_{k}}}$.
+\end{defi}
+
+Una definición alternativa está dada por una mezcla contable en la que los pesos se derivan de un proceso gamma y masas %
+puntuales en puntos aleatorios. Definió el proceso Dirichlet como un proceso gamma con los incrementos divididos por su %
+suma. Ishwaran y James describen una formulación alternativa para los pesos, en donde usan exponenciales con parámetro %
+$1$. Otro proceso de construcción se da por Sethuraman y Tiwari en el que los pesos se derivan usando la distribución %
+beta con parámetros $1$ y $\alpha\Pp{\X}$; su representación de una medida de probabilidad $P$ con prior Dirichlet $\D%
+\Pp{\alpha}$ es
+\[
+P\Pp{A} = \sum_{j = 1}^{\infty} p_{j} \delta_{\xi_{j}} \Pp{A}, \qquad A \in \Alg,
+\]
+con $\xi_{j} \stackrel{iid}{\sim} \overline{\alpha}\Pp{\cdot}$ tomando valores en $\X$, $p_{1} = V_{1}$ y $p_{j} = V_{j} %
+\prod_{i = 1}^{j-1} \Pp{1 - V_{i}}$ con $V_{j} \stackrel{iid}{\sim} B\Pp{1, \alpha\Pp{\X}}$. Esta construcción se llama %
+construcción de romper una rama. Esta representación demuestra que el proceso de Dirichlet escoge ua distribución discreta %
+con probabilidad 1.
+
+Blackwell y MacQueen también proponen una definición alternativa. Tomando $\Set{X_{n} \,|\, n \geq 1}$ una sucesión de variables %
+aleatorias tomando valores en $\X$ como sigue: para cada $A \in \Alg$ sea $P\Pp{X_{1} \in A} = \frac{\alpha\Pp{A}}{\alpha\Pp{%
+\X}}$ y 
+\begin{equation} \label{eq:blackmac}
+P\Pp{X_{n+1} \in A \,|\, X_{1}, \ldots, X_{n}} = \frac{\alpha_{n}\Pp{A}}{\alpha_{n}\Pp{\X}} %
+                                               = \frac{\alpha\Pp{A} + \sum_{i = 1}^{n} \delta_{x_{i}}\Pp{A}}{\alpha\Pp{\X} + n}.
+\end{equation}
+A esta sucesión se le llama \textit{sucesión de Polya con parámetro $\alpha$}; Blackwell y MacQueen probaron que la sucesión %
+$\frac{\alpha_{n}\Pp{\cdot}}{\alpha_{n}\Pp{\X}}$ converge a una medida discreta $P$ y $P$ es el proceso de Dirichlet con %
+parámetro $\alpha$. Podemos notar que \eqref{eq:blackmac} se puede expresar como
+\[
+P\Pp{X_{n+1} \in A \,|\, X_{1}, \ldots, X_{n}} = \sum_{i = 1}^{n} \frac{1}{\alpha\Pp{\X} + n} \delta_{x_{i}}\Pp{A} + 
+                                                \frac{\alpha\Pp{\X}}{\alpha\Pp{\X} + n} \overline{\alpha}\Pp{A}.
+\]
+
+\begin{defi}(Ferguson)
+Sea $P$ una medida de probabilidad aleatoria en $\Pp{\X, \Alg}$. $X_{1}, \ldots, X_{n}$ es una muestra de $P$ si para cada $m %
+> 0$ entero y conjuntos medibles $A_{1}, \ldots, A_{m}, C_{1}, \ldots, C_{n}$ de $\X$,
+\[
+P\Pp{X_{1} \in C_{1}, \ldots X_{n} \in C_{n} | P\Pp{A_{1}}, \ldots, P\Pp{A_{n}}, P\Pp{C_{1}}, \ldots, P\Pp{C_{n}}} %
+ \!=\! \prod_{j = 1}^{n} P\Pp{C_{j}},
+\]
+casi seguramente.
+\end{defi}
+
+\subsubsection{Propiedades}
+
+Para estas propiedades se asume que $P \in \D\Pp{\alpha}$ y dada $P$ $X_{1}, \ldots, X_{n}$ es una muestra de $P$. Además %
+se define $M = \alpha\Pp{\X}$.
+\begin{enumerate}
+    \item El proceso de Dirichlet escoge una medida de probabilidad discreta con probabilidad $1$; esto es cierto aunque %
+    $\alpha$ sea continua.
+    \item Por la discreción del proceso de Dirichlet, la distribución predictiva de una observación futura es dada por %
+    \begin{equation} \label{eq:actualpd}
+    X_{n+1} \,|\, X_{1}, \ldots, X_{n} \sim \frac{M}{M + n}\overline{\alpha} + \frac{n}{M + n} \frac{1}{n} \sum_{j = 1}^{%
+    K} n_{j} \delta_{X_{j}^{*}}.
+    \end{equation}
+    \item El siguiente teorema establece la conjugacidad del proceso de Dirichlet con respecto a observaciones no %
+    censuradas:
+    \begin{teor}[Ferguson]
+    Sea $P \in \D\Pp{\alpha}$ y dada $P$ sea $X \sim P$ una muestra aleatoria de tamaño uno, entonces la distribución %
+    marginal de $X$ es $\overline{\alpha}$; además la distribución posterior de $P$ dada $X$ es $\D\Pp{\alpha + %
+    \delta_{x}}$. Si $X_{1}, \ldots, X_{n}$ es una muestra aleatoria de $P$ entonces la distribución posterior de $P$ %
+    dada la muestra es $\D\Pp{\alpha + \sum_{i = 1}^{n} \delta_{x_{i}}}$.
+    \end{teor}
+    \item Para tomar una muestra de un proceso Dirichlet se puede realizar el procedimiento de romper una rama o la %
+    extensión de la urna de Polya. La diferencia en estos métodos es la exactitud del primero contra la aproximación %
+    del segundo. Su deficiencia en generar $P$ es que se necesitan infinitas repeticiones y eso no es posible, por lo %
+    que se toma un criterio de paro en el tamaño. Otro método de aproximación es tomar los pesos de una distribución %
+    Dirichlet simétrica con parámetro $\frac{\alpha\Pp{\X}}{N}$ y los puntos de masa se obtienen de $\overline{\alpha}$.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Un poco de mezclas y generalizaciones
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Mezclas y generalizaciones del proceso de Dirichlet}
+
+Para resolver problemas de estimación bayesianos Antoniak definió mezclas de procesos Dirichlet indexando el parámetro %
+$\alpha$ por $\theta \sim H\Pp{\theta}$, por lo que $P \,|\, \theta \sim \D\Pp{\alpha_{\theta}}$. Por otra parte, Lo se %
+dio cuenta que al tratar con funciones de densidad el proceso de Dirichlet no era adecuado, por lo que propusó otro tipo %
+de mezclas; modeló una función de densidad aleatoria en $\R$ como $f(x) = \int K(x, s) dG(s)$ en donde $K(x,s)$ es un %
+kernel conocido en $\R \times \X$ y $G$ es un proceso Dirichlet. 
+
+Ferguson consideró una mezcla contable de densidades normales formulando la función de densidad como $f(x) = \sum_{i = %
+1}^{\infty} p_{i} \Nor\Pp{x \,|\, \mu_{i}, \sigma_{i}}$. Esto puede ser escrito como $f(x) = \int \Nor\Pp{x \,|\, \mu, %
+\sigma} dG\Pp{\mu, \sigma}$. Para esto toma la representación de Sethuraman, definiendo los pesos $p_{j}$ con parámtro %
+$M$ y $\Pp{\mu_{j}, \sigma_{j}}$ son $iid$ con respecto al prior gamma-normal; esto prueba que $G$ es un proceso Dirchlet %
+con parámetro $\alpha = M G_{0}$, donde $G_{0}$ es el prior para $\Pp{\mu, \sigma}$.
+
+Mezclas gaussianas también surgen con Escobar; sea $Y_{i} \,|\, \mu_{i} \sim \Nor\Pp{\mu_{i}, 1}$, $\mu_{i} \,|\, G %
+\stackrel{iid}{\sim} G$ con $\mu_{i}$ y $G$ desconocidas. El objetivo es estimar las medias por medio de las observaci%
+ones. Junto con West, también uso un modelo de mezclas gaussianas para estimación de densidades; dado $\Pp{\mu_{i}, %
+\sigma_{i}^{2}}$ se tienen observaciones independientes $Y_{1}, \ldots, Y_{n}$ tales que $Y_{i} \,|\, \Pp{\mu_{i}, %
+\sigma_{i}^{2}} \sim \Nor\Pp{\mu_{i}, \sigma_{i}^{2}}$ y $\nu_{i} = \Pp{\mu_{i}, \sigma_{i}^{2}}$ son muestreados de %
+una distribución a priori $G$ sobre $\R \times \R_{> 0}$. Los autores asumen que $G \sim \D\Pp{M G_{0}}$ donde $G_{%
+0}$ es la distribución a priori sobre $\R \times \R_{> 0}$. Por ser un proceso Dirichlet $\nu_{n+1} \,|\, \nu_{1}, %
+\ldots, \nu_{n}$ seguirá una distribución de la forma \eqref{eq:actualpd}. De lo anterior proceden a derivar la %
+distribución de $Y_{n+1} \,|\, \nu_{1}, \ldots, \nu_{n}$, que resulta ser una mezcla de $n$ normales y una $t$ de %
+Student, con esto prubas que  $Y_{n+1} \,|\, Y_{1},\ldots, Y_{n}$ tiene la distribución predictiva $\int P\Pp{%
+Y_{n+1} \,|\, \mathbf{\nu}} dP\Pp{\mathbf{\nu} \,|\, Y_{1}, \ldots, Y_{n}}$.
+
+Un tercer tipo de mezcla conlleva los modelos jerárquicos donde los parámetros de la distribución a priori tienen %
+priores asignadas con hiperparámetros. 
+
+Por otro lado el proceso Dirichlet se prestó para muchas generalizaciones o se vio que era un caso particular de %
+otros procesos. Como ejemplo de esto segundo, el proceso de Dirichlet es claramente un caso particular de el %
+proceso Dirichlet invariante y de mezclas de procesos Dirichlet; si se define en $\R$ el proceso es neutral a la %
+derecha, una transformación del proceso beta da como resultado el proceso Dirichlet que también resulta ser un %
+caso particular de proceso beta-Stacy. Varios de los procesos relacionados al proceso Dirichlet fueron resultado %
+de la representación de Sethuraman. Si la suma contable se trunca a $N < \infty$ términos, $N$ fijo o aleatorio, %
+se genera una clase de distribuciones priores discretas; si los pesos definidos por $B\Pp{1, \alpha\Pp{\X}}$ se %
+obtienen por una distribución beta con dos parámetros otro grupo de priores emergen. Otro grupo surge indexando %
+las masas con covariables; el cuarto grupo es resultado de otro tipo de extensión, si $\delta$ se cambia por %
+una medida de probabilidad $G$ no degenerada se tiene el proceso Dirichlet de kernels.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Proceso Dirichlet invariante
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Proceso Dirichlet Invariante}
+
+Sea $\Gru = \Set{g_1, \ldots, g_{k}}$ un grupo de transformaciones medibles en un espacio $p$-dimensional euclidia%
+no. U conjunto $B \in \X$ se dice $\Gru$-invariante si $B = gB$ para toda $g \in \Gru$, una medida finita no %
+negativa $\gamma$ se dice $\Gru$-invariante si $\gamma\Pp{A} = \gamma\Pp{gA}$ para toda $g \in \Gru$ y todo $A %
+\in \X$. Una partición medible de $\X$ se dice $\Gru$-invariante si $A_{j} = gA_{j}$ para toda $g \in \Gru$ y %
+$j = 1, \ldots, m$.
+
+\begin{defi}[Dalal]
+Una medida de probabilidad aleatoria $\Gru$-invariante es un proceso Dirichlet invariante si existe una medida, %
+$\alpha$, $\Gru$-invariante en $\Pp{\X, \sigma\Pp{\X}}$ tal que para cada partición medible $\Gru$-invariante %
+de $\X$ la distribución conjunta de $\Pp{P\Pp{A_{1}}, \ldots, P\Pp{A_{m}}}$ es $D\Pp{\alpha\Pp{A_{1}}, \ldots, %
+\alpha\Pp{A_{m}}}$. Se denota $P \in \DGI\Pp{\alpha}$.
+\end{defi}
+
+Tiwari extendió la represetación de Sethuraman al proceso Dirichlet invariante. Sea $\alpha$ una medida $\Gru$-%
+invariante en $\Pp{\X, \sigma\Pp{\X}}$, sean $\Pp{p_{1}, p_{2},\ldots}$ y $\Pp{\xi_{1}, \xi_{2}, \ldots}$ dos %
+sucesiones independientes de variables aleatorias $iid$, con las condiciones dadas en la representación %
+contable del proceso Dirichlet, entonces la medida de probabilidad aleatoria $P$ dada por
+\[
+P\Pp{A} = \sum_{j = 1}^{\infty} p_{j} \frac{1}{k} \sum_{i = 1}^{k} \delta_{g_{i} \xi_{j}}\Pp{A}, \qquad
+            A \in \sigma\Pp{\X},
+\]
+es un proceso Dirichlet invariante con parámetro $\alpha$.
+
+Algunas propiedades de este proceso son las siguientes:
+
+\begin{enumerate}
+    \item Sea $P \in \DGI\Pp{\alpha}$ y $X$ una muestra de tamaño $1$ de $P$, entonces para $A \in \sigma\Pp{%
+    \X}$ se tiene que \[
+    P\Pp{X \in A} = P\Pp{X \in gA} = \frac{\alpha\Pp{A}}{\alpha\Pp{\X}} \text{ para cualquier } g \in \Gru.
+    \]
+    \item Si $P \in \DGI\Pp{\alpha}$ entonces $P$ es una medida de probabilidad discreta con probabilidad $1$.
+    \item Se tiene la siguiente propiedad de conjugacidad: \begin{teor}[Dalal]
+    Sea $P \in \DGI\Pp{\alpha}$ y sea $X_{1}, \ldots, X_{n}$ una muestra de tamaño $n$ de $P$. Entonces la %
+    distribución posterior de $P$ dadas $X_{1}, \ldots, X_{n}$ es $\DGI\Pp{\alpha + \sum_{i = 1}^{n} \delta^{%
+    g}_{X_{i}}}$ donde $\delta_{X_{i}}^{g} = \frac{1}{k} \sum_{j = 1}^{k} \delta{g_{j} X_{i}}$.
+    \end{teor}
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mezclas más a fondo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Mezclas de procesos Dirichlet}
+
+Hay algunas situaciones en las que el proceso Dirichlet no es adecuado como en el siguiente problema de \textit{%
+bioassay}. Sea $F(t)$ la probabilidad de una respuesta positiva de un animal a una medicina administrada con %
+nivel $t \geq 0$. Se asume que $F(0) = 0$ y que $F(t)$ es no decreciente con $\lim_{t \to \infty} F(t) = 1$. Para %
+entender propiedades de $F$ se hace un experimento con $n$ animales, administrándoles $\muestra{t}{n}$ de la medicina %
+y observando las variables independientes $\muestra{Y}{n}$ que representan si la respuesta al tratamiento es positiva. %
+Este problema se puede tratar desde un punto de vista bayesiano no paramétrico escogiendo como prior un proceso %
+Dirichlet con parámetro $\alpha$ para $F$. Pero lo que queremos es, dados los datos, obtener la distribución posterior %
+de $F$ y esta no es un proceso Dirichlet.
+
+Para el problema anterior y otros problemas relacionados, la distribución posterior de $F$ dados los datos resulta ser %
+una mezcla de procesos Dirichlet. \textit{Grosso modo}, una mezcla de procesos Dirichlet es un proceso Dirichlet donde %
+el parámetro $\alpha$ es aleatorio y se la da una cierta distribución. Dalal y Hall mostraron que un modelo paramétrico %
+bayesiano se puede aproximar por un modelo bayesiano no paramétrico con mezclas de modelos Dirichlet, por lo que el %
+prior asigna casi todo su peso a vecindades de los modelos paramétricos; además cualquier prior paramétrica o no para%
+métrica se puede aproximar por una mezcla de procesos Dirichlet. Esto se está usando para modelar datos de dimensiones %
+altas a gran escala.
+
+La mezcla más simple de procesos Dirichlet sería la que escoja $P \in \D\Pp{\alpha_{1}}$ con probabilidad $\pi$ y que %
+escoja $P \in \D\Pp{\alpha_{2}}$ con probabilidad $1 - \pi$. Este tipo de mezclas no se debe confundir con las que %
+propuso Lo en la que un kernel conocido se mezcla respecto a una distribución no paramétrica. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definición de mezclas et al
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Definición}
+
+Primero se presenta la definción de una medida de transición.
+
+\begin{defi}[Antoniak]
+Sean $\Pp{\X, \sigma\Pp{\X}}$ y $\Pp{U, \sigma\Pp{U}}$ dos espacios medibles. Una medida de transición es un mapeo %
+de $U \times \sigma\Pp{\X}$ a $[0, \infty)$ tal que se cumplan los dos siguientes requisitos.
+\begin{enumerate}
+    \item Para cada $u \in U$, $\alpha\Pp{u, \cdot}$ debe ser una medida finita no negativa y no nula en $\Pp{\X, %
+    \sigma\Pp{\X}}$.
+    \item Para cada $A \in \sigma\Pp{\X}$, $\alpha\Pp{\cdot, A}$ debe ser medible en $\Pp{U, \sigma\Pp{U}}$. 
+\end{enumerate}
+\end{defi}
+
+Por conveniencia, en lugar de usar $\alpha\Pp{u, \cdot}$, se utiliza la notación $\alpha_{u}\Pp{\cdot}$ y esta medida %
+sirve como parámetro para el proceso Dirichlet. Ahora se da la definición de una mezcla de procesos Dirichlet.
+
+\begin{defi}[Antoniak]
+Se dice que $P$ es una mezcla de procesos Dirichlet en $\Pp{\X, \sigma\Pp{\X}}$ con distribución de mezcla $H$ en %
+$\Pp{U, \sigma\Pp{U}}$ y medida de transición $\alpha_{u}$ si para toda $k = 1,2 , \ldots$ y toda partición medible %
+$\muestra{A}{k}$ de $\X$, se tiene que el vector aleatorio $\Pp{P\Pp{A_{1}}, \ldots, P\Pp{A_{k}}}$ tiene la distribu%
+ción como mezcla
+\[
+\int_{U} D\Pp{\alpha_{u}\Pp{A_{1}}, \ldots, \alpha_{u}\Pp{A_{k}}} d H(u),
+\]
+en donde $D\Pp{\muestra{\alpha}{k}}$ es la distribución Dirichlet $k$-dimensional. Por conveniencia se escribe $ P %
+\in \int D\Pp{\alpha_{u}\Pp{\cdot}} dH(u)$.
+\end{defi}
+
+Si se considera que $u$ es una variable aleatoria con distribución $H$ entonces $P$, condicional a $u$, es un proceso %
+Dirichlet con parámetro $\alpha_{u}$. Una muestra de una mezcla de procesos Dirichlet tiene una definición similar a %
+la muestra de un proceso Dirichlet.
+
+\begin{defi}[Antoniak]
+Sea $P$ una mezcla de procesos Dirichlet en $\Pp{\X, \sigma\Pp{\X}}$ con medida de transición $\alpha_{u}$ y distribución %
+de mezcla $H$. $\muestra{X}{n}$ es una muestra de $P$ si para cada entero positivo $m$ y conjuntos medibles $\muestra{A}{%
+m}$, $\muestra{C}{n}$ se cumple lo siguiente:
+\[
+\begin{array}{l}
+P\Set{X_{1} \in C_{1}, \ldots, X_{n} \in C_{n} \,|\, u, P\Pp{A_{1}}, \ldots, P\Pp{A_{m}}, P\Pp{C_{1}}, \ldots, P\Pp{C_{%
+n}}} \\
+= \prod_{j = 1}^{n} P\Pp{C_{j}} \text{ casi seguramente.}
+\end{array}
+\]
+\end{defi}
+
+\subsubsection{Propiedades}
+
+Antoniak estableció las siguientes propiedades.
+
+\begin{enumerate}
+    \item Sea $P \in \D\Pp{\alpha}$ y $H$ una media de probabilidad fija en $\Pp{\X, \sigma\Pp{\X}}$, si $\alpha_{u}\Pp{%
+    A} = \alpha\Pp{A} + \delta_{u}\Pp{A}$, entonces el proceso $P^{*}$ que escoge $u$ respecto a $H$ y $P$ de un proceso %
+    Dirichlet con parámetro $\alpha_{u}$ es una mezcla de procesos Dirichlet. 
+    \item Si $P \in \int \D\Pp{\alpha_{u}\Pp{\cdot}} dH(u)$ y $X$ es una muestra de tamaño uno de $P$, entonces para %
+    todo conjunto medible $A$ se cumple que
+    \[
+    P\Pp{X \in A} = \int_{U} \frac{\alpha_{u}\Pp{A}}{\alpha_{u}\Pp{\X}} dH(u).
+    \]
+    \item Sean $P \in \D\Pp{\alpha}$, $X$ una muestra de tamaño uno de $P$ y $A$ un conjunto medible tal que $\alpha\Pp{%
+    A} > 0$. Entonces la distribución condicional de $P$ dado que $X \in A$ es una mezcla de procesos Dirichlet con medi%
+    da de transición $\alpha_{u} = \alpha + \delta_{u}$ para $u \in A$ y distribución de mezcla $H_{A}\Pp{\cdot} = \frac{%
+    \alpha\Pp{\cdot}}{\alpha\Pp{A}}$. Si $A = \X$ entonces esto se reduce al proceso de Dirichlet.
+    \item Las mezclas de procesos Dirichlet satisfacen la siguiente propiedad de conjugacidad. \begin{teor}[Antoniak]
+    Sea $\mathbf{X} = \Pp{\muestra{X}{n}}$ una muestra de tamaño $n$ de $P \in \int_{U} \D\Pp{\alpha_{u}} dH(u)$, entonces%
+    $ P \,|\, \mathbf{X} \in \int_{U} \D\Pp{\alpha_{u} + \sum_{i = 1}^{n} \delta_{\theta_{i}}} dH_{\mathbf{X}}$, donde %
+    $H_{\mathbf{X}}$ es la distribución condicional de $u$ dada $\mathbf{X}$. 
+    \end{teor}
+\end{enumerate}
+

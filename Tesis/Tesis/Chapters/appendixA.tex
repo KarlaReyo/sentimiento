@@ -1,0 +1,178 @@
+\chapter{Elementos de probabilidad y estadística}
+\label{ap:appA}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Prior y marginal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Prior y marginal}
+
+En estadística bayesiana se tiene que $x \sim p\left(x \,|\, \theta \right)$ %
+en donde $\theta \sim \Pi\left( \theta \right)$. Si tenemos las observaciones %
+$x_{1}, \ldots, x_{n} \stackrel{iid}{\sim} p\left(x \,|\, \theta \right)$, %
+entonces la distribución \textit{a posteriori} está dada por:
+%
+\begin{equation} \label{eq:actual}
+\Pi\left( \theta \,|\, x_{1},\ldots,x_{n} \right) = \frac{%
+p\left(x_{1}, \ldots, x_{n} \,|\, \theta \right) \Pi\left( \theta \right)}%
+{p\left( x_{1}, \ldots, x_{n} \right)}%
+\propto %
+\Pi\left( \theta \right) \prod_{i = 1}^{n} p\left(x_{i} \,|\, \theta \right).
+\end{equation}
+
+La distribución marginal de $x$ sin depender de $\theta$ está dada por %
+%
+\begin{equation} \label{eq:margpr}
+p(x) = \int_{\Theta} p\left( x \,|\ \theta \right) \Pi( \theta ) d\theta,
+\end{equation}
+%
+por lo que dadas las distribuciones anteriores se tiene que la distribución marginal posterior está dada por
+%
+\begin{equation} \label{eq:infer}
+p\left( x \,|\, x_{1}, \ldots, x_{n} \right) = %
+\int_{\Theta} p\left( x \,|\, \theta \right) %
+\Pi\left( \theta \,|\, x_{1}, \ldots, x_{n} \right) d\theta.
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Modelo Catedórico Dirichlet
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Categórica-Dirichlet}
+
+En particular, si $X \in \{1, 2, \ldots, k\}$ donde $k < \infty$ tal que %
+$P\left( X = j \right) = p_{j} \geq 0$ para $j = 1, \ldots, k$ donde %
+$\sum_{i = 1}^{k} p_{i} = 1$. Si suponemos que $p_{1}, \ldots, p_{k}$ son aleatorias entonces %
+$\Pi\left( p_{1}, \ldots, p_{k} \right)$ tiene soporte sobre el simplex de dimensión $k-1$%
+\footnote{El simplex de dimensión $m$ está definido como %
+$S_{m} = \{y \in \mathbb{R}^{m} \,|\, y \geq 0,\, y^{T}e \leq 1\}$ %
+con $e = (1, \ldots, 1)^{T} \in \mathbb{R}^{m}$.} %
+puesto que uno de los valores está autodeterminado.
+%
+La distribución que usualmente se usa en este caso es la distribución Dirichlet%
+\footnote{Para ahorrar espacio y facilitar la escritura usaré notación vectorial: %
+$\underline{p} = \left( p_{1}, \ldots, p_{k}\right)$ y %
+$\underline{\alpha} = \left( \alpha_{1}, \ldots, \alpha_{k}\right)$.}:
+%
+\begin{equation} \label{eq:dirich}
+\Pi\left( \underline{p} \,|\, \underline{\alpha} \right) = %
+\frac{\Gamma\left( \sum_{i = 1}^{k} \alpha_{i} \right)}%
+{\prod_{i=1}^{k} \Gamma\left( \alpha_{i} \right)} %
+\prod_{i=1}^{k} p_{i}^{\alpha_{i} - 1} %
+\mathbbm{1}_{S_{k-1}}\left(\underline{p}\right).
+\end{equation}
+%
+Con esto podemos se puede decir que $X \sim Cat\left(k, \underline{p} \right)$ donde
+%
+\begin{equation} \label{eq:categ}
+p\left( x \,|\, \underline{p} \right) = \prod_{i = 1}^{k} p_{j}^{\left[x = j\right]} %
+\mathbbm{1}_{1, \ldots, k}\left(x\right),
+\end{equation}
+%
+donde 
+%
+\[
+\left[ x = j \right] = \left\{ \begin{array}{lcl} %
+0 & \text{si} & x \neq j \\
+1 & \text{si} & x = j
+\end{array}
+\right.
+\]
+%
+son los corchetes de Iverson.
+
+Si se tienen observaciones $x_{1}, \ldots, x_{n} \stackrel{iid}{\sim} %
+Cat\left( k, \underline{p} \right)$ donde $\underline{p} \sim %
+Dirichlet\left( \underline{\alpha} \right)$ entonces la actualización, por %
+\eqref{eq:actual}, \eqref{eq:dirich} y \eqref{eq:categ}, está dada por:
+%
+\begin{eqnarray*}
+\Pi\left( \theta \,|\, x_{1}, \ldots, x_{n} \right) & \propto & %
+\prod_{i = 1}^{k} p_{i}^{\alpha_{i} - 1} %
+\prod_{j = 1}^{n} \prod_{l = 1}^{k} p_{l}^{\left[ x_{j} = l \right]} %
+\mathbbm{1}_{S_{k-1}}\left( \underline{p} \right) \\
+& = & \prod_{i = 1}^{k} p_{i}^{\alpha_{i} + %
+\sum_{j = 1}^{n} \left[ x_{j} = i \right] - 1} %
+\mathbbm{1}_{S_{k-1}}\left( \underline{p} \right),
+\end{eqnarray*}
+%
+por lo que $\theta \,|\, x_{1}, \ldots, x_{n} \sim %
+Dirichlet\left( \underline{\alpha} + \underline{n'} \right)$ en donde %
+$\underline{n'} = \left(n_{1}', \ldots, n_{k}' \right)$, con %
+$n_{i}' = \sum_{j = 1}^{n} \left[ x_{j} = i \right] $, es el vector en donde la entrada $i$%
+es el número de ocurrencias de ese caso en la muestra.
+
+Como la distribución de la posterior sigue siendo Dirichlet, al igual que la prior, este %
+modelo\footnote{Categórica-Dirichlet} se dice conjugado y de esto anterior es evidente que %
+se puede generalizar al modelo \textit{Multinomial-Dirichlet}. Al caso especial de este modelo, %
+cuando $k = 2$, se le conoce como \textit{Bernoulli-Beta}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wishart
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Modelo Normal-Wishart Inversa}
+
+Sea $V \in \R^{p \times p}$ una matriz simétrica positiva definida. Se dice que $V$ sigue la%
+distribución Wishart $p$-dimensional con matriz de escala $\Sigma$ y $n$ grados de libertad si %
+$p \leq n$ y la distribución conjunta de los elementos de $V$ tiene la función de densidad %
+\begin{equation}\label{eq:wishartd}
+p(V) = \frac{c \abs{V}^{\frac{n - p - 1}{2}}}{\abs{\Sigma}^{\frac{n}{2}}} \exp\Pp{-\frac{1}{2}%
+\tr{\Sigma^{-1} V}}
+\end{equation}
+si $V > 0$ y $\Sigma > 0$ y $p(V) = 0$ en otro caso. $c$ es una constante numérica definida por 
+\[
+c^{-1} = 2^{\frac{np}{2}} \pi^{\frac{p \Pp{p - 1}}{4}} \prod_{j = 1}^{p} \Gamma \Pp{\frac{n + 1 %
+- j}{2}}.
+\]
+Si $p > n$ entonces la distribución es singular y no cuenta con densidad. Simbólicamente se %
+escribe $V \sim \Wis\Pp{\Sigma, p, n}$.
+
+Si definimos $U = V^{-1}$ entonces de puede probar que $U$ tiene la siguiente densidad.
+\begin{equation}
+p(U) = \frac{c \abs{S}^{\frac{n}{2}}}{\abs{U}^{\frac{n + p + 1}{2}}} \exp\Pp{-\frac{1}{2} \tr{S U^{-1}}},
+\end{equation}
+con $c$ definido igual que en \eqref{eq:wishartd} y $S = \Sigma^{-1}$. Se dice que $U$ sigue la %
+distribución Wishart inversa. Simbólicamente $U \sim \iWis\Pp{S, p, n}$.
+
+En el caso de que $X \sim \Nor\Pp{\mu, \Sigma}$ es $p$-dimensional donde $\mu$ y $\Sigma$ son desconocidas. %
+Como distribución a priori para $\mu$ y $\Sigma$ se puede %
+utilizar la Normal-Wishart inversa. Para esto se necesitan cumplir las siguientes condiciones:
+\begin{eqnarray}
+\mu \,|\, \mu_{0}, \Sigma, \lambda \sim \Nor\Pp{\mu_{0}, \frac{1}{\lambda} \Sigma}, \\
+\Sigma \,|\, S, \nu \sim \iWis\Pp{S, p, n}.
+\end{eqnarray}
+Entonces si la densidad de $\mu, \Sigma \,|\, \mu_{0}, S, \nu, \lambda$ está dada por
+\[
+f\Pp{\mu, \Sigma \,|\, \mu_{0}, S, \nu, \lambda} = \Nor\Pp{\mu \,|\, \mu_{0}, \frac{1}{\lambda} \Sigma} \iWis %
+\Pp{\Sigma \,|\, S, \nu},
+\]
+se dice que $\mu, \Sigma$ tiene una distribución Normal-Wishart inversa con parámetros $\mu_{0}, S$, $\nu$, $\lambda$. %
+Simbólicamente se escribe $\mu, \Sigma \sim \Nor\iWis\Pp{\mu_{0}, S, \nu, \lambda}$.
+
+Ahora supongamos que con $\mu$ y $\Sigma$ desconocidas se tiene una colección de $n$ observaciones %
+tales que $X_{i} \stackrel{iid}{\sim} \Nor\Pp{\mu, \Sigma}$ se tiene que
+\[
+\begin{array}{rcl}
+p\Pp{\mu, \Sigma \,|\, \muestra{X}{n}} & \propto & p\Pp{\muestra{X}{n} \,|\, \mu, \Sigma} p\Pp{\mu, \Sigma} \\
+& \propto & \abs{\Sigma}^{-\frac{n}{2}} \exp\Pp{-\frac{1}{2} \sum_{i = 1}^{n} \Pp{X_{i} - \mu}^{T} \Sigma^{-1} \Pp{X_{i} - %
+\mu}} \\
+& & \cdot \abs{\Sigma}^{-\frac{1}{2}} \exp\Pp{-\frac{\lambda}{2} \Pp{\mu - \mu_{0}}^{T} \Sigma^{-1} \Pp{\mu - \mu_{0}}} \\
+& & \cdot \abs{\Sigma}^{-\frac{\nu + p + 1}{2}} \exp\Pp{-\frac{1}{2} \tr{S \Sigma^{-1}}} \\
+& \propto &  \abs{\Sigma}^{-\frac{1}{2}} \exp\Pp{-\frac{\lambda_{n}}{2} \Pp{\mu - \mu_{n}}^{T} \Sigma^{-1} \Pp{\mu - \mu_{n}}} \\
+& & \cdot \abs{\Sigma}^{-\frac{\nu + n + p + 1}{2}} \exp\Pp{S_{n} \Sigma^{-1}} \\
+& \propto & \Nor\Pp{\mu \,|\, \mu_{n}, \frac{1}{\lambda_{n}} \Sigma} \iWis\Pp{\Sigma \,|\, S_{n}, \nu_{n}},
+\end{array}
+\]
+en donde
+\[
+\begin{array}{rcl}
+\mu_{n} & = & \frac{\lambda \mu_{0} + n \overline{X}}{\lambda + n},\\
+\lambda_{n} & = & \lambda + n, \\
+\nu_{n} & = & \nu + n \qquad \text{ y} \\
+S_{n} & = & S + {\sum_{i = 1}^{n} \Pp{X_{i} - \overline{X}} \Pp{X_{i} - \overline{X}}^{T}} + \frac{\lambda n }{\lambda + n} %
+\Pp{\overline{X} - \mu_{0}} \Pp{\overline{X} - \mu_{0}}^{T}.
+\end{array}
+\]
+Entonces se puede observar que la distribución posterior de los parámetros $\mu$ y $\Sigma$ sigue siendo una Normal-Wishart %
+inversa.

@@ -1,0 +1,64 @@
+% Tesis ITAM CLASS -- version 0.1 (13 - Abr - 2015)
+% Clase para las tesis del ITAM
+% 
+% 13 - Abr - 2015 	Victor Martinez 	victor.martinez (at) itam.mx
+% LICENSE: Creative Commons SA-BY 3.0
+%
+% En este archivo, el estudiante puede definir sus propios comandos
+%
+%
+\ProvidesPackage{macros}[2015/01/01 v1.0 My own macros]
+
+
+%%%%%%%%%%%%%%%%%% Agregamos el directorio de figuras al PATH %%%%%%%%%%%%%%%%%%
+\graphicspath{ {./Figures/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Definiciones adicionales %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator*{\argmin}{arg\! \min}
+\DeclareMathOperator*{\argmax}{arg\! \max}
+\newcommand{\sgn}{\operatorname{sgn}}
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{bbm}
+\RequirePackage{xifthen}
+
+% Aquí pondré definiciones que irán en las notas
+
+% Teoremas, lemas, definiciones, etc.
+\newtheorem{defi}{Definici\'on}
+\newtheorem{teor}{Teorema}
+
+% Acotar matemáticas
+
+% Letras
+\newcommand{\D}{\ensuremath{\mathcal{D}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\X}{\ensuremath{\mathfrak{X}}}
+\newcommand{\Y}{\ensuremath{\mathfrak{Y}}}
+\newcommand{\DGI}{\ensuremath{\mathcal{DGI}}}
+\newcommand{\Alg}{\ensuremath{\mathcal{A}}}
+\newcommand{\Nor}{\ensuremath{\mathcal{N}}}
+\newcommand{\Wis}{\ensuremath{\mathcal{W}}}
+\newcommand{\iWis}{\ensuremath{\mathcal{W}^{-1}}}
+\newcommand{\Gru}{\ensuremath{\mathcal{G}}}
+\newcommand{\Ind}{\ensuremath{\mathbbm{1}}}
+\newcommand{\E}{\ensuremath{\mathrm{E}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+
+% Normas
+\newcommand{\norm}[2][]{%
+\ifthenelse{\isempty{#1}}{%
+\ensuremath{\left\lVert #2 \right\rVert}}{%
+\ensuremath{\left\lVert #2 \right\rVert_{#1}}}%
+}
+\newcommand{\abs}[1]{\ensuremath{\left| #1 \right|}}
+
+% Tipos de paréntesis
+\newcommand{\Pp}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\Set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\Bb}[1]{\ensuremath{\left[ #1 \right]}}
+
+% Algunos comandos por flojo
+\newcommand{\muestra}[2]{\ensuremath{#1_{1}, \ldots, #1_{#2}}}
+\newcommand{\tr}[1]{\ensuremath{\mathrm{tr} \left( #1 \right)}}

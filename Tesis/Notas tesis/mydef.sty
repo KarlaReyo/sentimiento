@@ -1,0 +1,44 @@
+\ProvidesPackage{mydef}[2/9/17 Local sty for definitions]
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{bbm}
+\RequirePackage{xifthen}
+
+% Aquí pondré definiciones que irán en las notas
+
+% Teoremas, lemas, definiciones, etc.
+\newtheorem{defi}{Definición}
+\newtheorem{teor}{Teorema}
+
+% Letras
+\newcommand{\D}{\ensuremath{\mathcal{D}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\X}{\ensuremath{\mathfrak{X}}}
+\newcommand{\Y}{\ensuremath{\mathfrak{Y}}}
+\newcommand{\DGI}{\ensuremath{\mathcal{DGI}}}
+\newcommand{\Alg}{\ensuremath{\mathcal{A}}}
+\newcommand{\Nor}{\ensuremath{\mathcal{N}}}
+\newcommand{\Wis}{\ensuremath{\mathcal{W}}}
+\newcommand{\iWis}{\ensuremath{\mathcal{W}^{-1}}}
+\newcommand{\Gru}{\ensuremath{\mathcal{G}}}
+\newcommand{\Ind}{\ensuremath{\mathbbm{1}}}
+\newcommand{\E}{\ensuremath{\mathrm{E}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+
+% Normas
+\newcommand{\norm}[2][]{%
+\ifthenelse{\isempty{#1}}{%
+\ensuremath{\left\lVert #2 \right\rVert}}{%
+\ensuremath{\left\lVert #2 \right\rVert_{#1}}}%
+}
+\newcommand{\abs}[1]{\ensuremath{\left| #1 \right|}}
+
+% Tipos de paréntesis
+\newcommand{\Pp}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\Set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\Bb}[1]{\ensuremath{\left[ #1 \right]}}
+
+% Algunos comandos por flojo
+\newcommand{\muestra}[2]{\ensuremath{#1_{1}, \ldots, #1_{#2}}}
+\newcommand{\tr}[1]{\ensuremath{\mathrm{tr} \left( #1 \right)}}
